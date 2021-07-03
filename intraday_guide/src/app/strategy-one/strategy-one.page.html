@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Strategy #1</ion-title>
+    <ion-note style="padding-left: 20px;">Can be used only when the NSE Pre-Open market Nifty50 has <strong>+/-
+        1%</strong> change</ion-note>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="row text-center">
+    <div class="col-12">
+      <h4>Enter Pre-Open Market Nifty50 Change %:</h4>
+    </div>
+    <div class="col-5"></div>
+    <div class="col-2">
+      <strong>
+        <ion-input class="input-box-full" placeholder="Change %" type="number" [(ngModel)]="niftyValue"></ion-input>
+      </strong>
+      <br>
+      <ion-button color="primary" (click)="getNiftyValue()">Get Strategy</ion-button>
+    </div>
+    <div class="col-5"></div>
+  </div>
+  <div style="padding: 10%; padding-top: 2%;" *ngIf="isValidStrategy">
+    <div class="row text-center">
+      <h1> Call action <span [ngStyle]="{'color': callAction==='BUY' ? 'green' : 'red'}">{{ callAction }}</span></h1>
+
+      <!-- Stocks Selection Criteria -->
+      <div style="padding:10px">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Criteria for</ion-card-subtitle>
+            <ion-card-title>Stocks Selection</ion-card-title>
+          </ion-card-header>
+
+          <h4 *ngIf="callAction === 'BUY'">Select the stocks that have more than <span style="color: green;">-1%
+            </span> change in the pre-open market.</h4>
+
+          <h4 *ngIf="callAction === 'SELL'">Select the stocks that have more than <span style="color: red;">+1%</span>
+            change in the pre-open market.</h4>
+          <img *ngIf="callAction === 'BUY'" style="padding: 10px;" src="../../assets/images/nifty_positive_2.jpg"
+            width="auto">
+          <img *ngIf="callAction === 'SELL'" style="padding: 10px;" src="../../assets/images/nifty_negative.jpg"
+            width="auto">
+        </ion-card>
+      </div>
+
+      <!-- Entry Criteria -->
+      <div style="padding:10px">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Criteria for</ion-card-subtitle>
+            <ion-card-title>Entry</ion-card-title>
+          </ion-card-header>
+
+          <h1>Time frame: 5 minutes handles</h1>
+          <h4 *ngIf="callAction === 'BUY'">First 5min candle should be <span style="color: green;"> GREEN  </span>
+             (bullish). <br>
+            BUY above the first handle HIGH
+          </h4>
+          <img style="padding: 10px;" *ngIf="callAction === 'BUY'" src="../../assets/images/nifty_positive_graph_2.jpg"
+            width="auto">
+
+          <h4 *ngIf="callAction === 'SELL'">First 5min candle should be <span style="color: red;">RED </span> (bearish).
+            <br> SELL below the first handle LOW
+          </h4>
+          <img *ngIf="callAction === 'SELL'" style="padding: 10px;" src="../../assets/images/nifty_negative_graph.jpg"
+            width="auto">
+        </ion-card>
+      </div>
+
+      <!-- Calculation Section -->
+      <div style="padding:10px">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Quick Calculation</ion-card-subtitle>
+            <ion-card-title>Exit Values</ion-card-title>
+          </ion-card-header>
+
+          <div class="row text-center">
+            <div class="col-4"></div>
+            <div class="col-4">
+              <strong>
+                <ion-input class="input-box-full" placeholder="Selected Stock Price" type="number"
+                  [(ngModel)]="stockValue"></ion-input>
+              </strong>
+              <br>
+              <ion-button color="primary" (click)="calculateExitValues()">Calculate Exit Values </ion-button>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-12">
+              <h4>{{ callAction }} Price: {{ stockValue }}</h4>
+              <h1>Exit <span> {{ callAction === 'BUY'? ' (Sell) ' : ' (Buy) ' }} </span> Price: {{ exitValue }}</h1>
+              <h2>Stop Loss Price: {{ stopLossValue }}</h2>
+            </div>
+          </div>
+        </ion-card>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isValidStrategy && isValidStrategy !== undefined" class="row text-center">
+    <h3> This strategy will not work today :( </h3>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div style="padding: 10px">
+    <div class="text-center">
+      Credits & Disclaimer: The details mentioned are based on a video by Tamil Techtrader in Youtube and
+      for educational purpose only.
+      <a href="https://www.youtube.com/watch?v=qjr2mQRCxyQ">Click here for the video</a>
+    </div>
+    <div class="text-center">
+      This site is designed and developed by &copy; <a href="https://linktr.ee/thejd" target="_blank">JD</a>
+    </div>
+  </div>
+</ion-footer>
